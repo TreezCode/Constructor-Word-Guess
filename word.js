@@ -1,6 +1,6 @@
 
 // Import letter.js
-var Letter = require("./letter.js")
+const Letter = require("./letter.js")
 
 // Constructor to create an object for the current word the user is attempting to guess
 function Word(string) {
@@ -13,6 +13,7 @@ function Word(string) {
             var newLetter = new Letter(character);
             letters.push(newLetter);
         });
+        console.log(letters);
         return letters;
     }
 
@@ -22,7 +23,7 @@ function Word(string) {
     // Testing
     console.log(this.letters);
     
-    // Check user input by passing character through checkGuess()
+    // Check user input by passing character through checkGuess() and then display the results by calling updateWord()
     this.userGuess = function(character) {
         this.letters.forEach(letter => {
             if(letter.character !== " ") {
@@ -43,8 +44,8 @@ function Word(string) {
     }
 }
 
-// Test
-var testWord = new Word("i am Treez");
+// Testing
+var testWord = new Word("Treez");
 console.log(testWord.userGuess("t"));
 
 module.exports = Word;

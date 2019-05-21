@@ -26,8 +26,8 @@ function Letter(character) {
 }
 
 // Testing
-var test = new Letter("g");
-console.log(test.checkGuess("f"));
-console.log(test.renderLetter("f"));
+// var test = new Letter("g");
+// console.log(test.checkGuess("f"));
+// console.log(test.renderLetter("f"));
 module.exports = Letter;
 

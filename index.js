@@ -1,24 +1,37 @@
 
 // Import Word
-var Word = require("./word.js");
-var inquirer = require("inquirer");
+const Word = require("./word.js");
+const inquirer = require("inquirer");
 
 // GLobal
-var wordBank = ["apple", "banana", "kiwi", "orange", "peach"];
-var currentWord = new Word
+const wordBank = ["apple", "banana", "kiwi", "orange", "peach"];
+let guessesLeft;
+let wrongGuesses;
+let currentWord;
 
 function resetGame() {
     guessesLeft = 10;
     wrongGuesses = [];
+    currentWord = ""
 }
 
+// Randomly selects a word and uses the Word constructor to store it
 function randomizeWord() {
-    
-    var newWord = Math.floor(Math.random() * wordBank.length);
-    console.log(newWord);
-    
+    let index = Math.floor(Math.random() * wordBank.length);
+    let newWord = wordBank[index];
+    currentWord = new Word(newWord)
+
+    // Testing
+    console.log(currentWord.string);
+    console.log(currentWord.userGuess("p"));
 }
 randomizeWord();
 
 
-
+inquirer
+  .prompt([
+    /* Pass your questions in here */
+  ])
+  .then(answers => {
+    // Use user feedback for... whatever!!
+  });
