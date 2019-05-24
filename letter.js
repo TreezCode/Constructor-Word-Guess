@@ -10,7 +10,7 @@ function Letter(value) {
             return " ";
         } else {
             if (!this.isGuessed) {
-            return "_";
+                return "_";
             } else {            
                 return this.character;
             }
