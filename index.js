@@ -68,7 +68,7 @@ let cpuWord = new Word(randomWord);
 
 let asterisk = "**********************************************************".rainbow;
 let tilde =    "~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~".rainbow;
-let fruityInto = "*.*.*.*.*.*.* ".rainbow;
+let fruityIntro = "*.*.*.*.*.*.* ".rainbow;
 
 let requireWord = false;
 let wrongLetters = [];
@@ -82,7 +82,7 @@ function introPrompt() {
 
   console.log(
     asterisk + "\r\n" + "\r\n" +
-    fruityInto + "WELCOME TO FRUITY WORD GUESS ".white + fruityInto + "\r\n" + "\r\n" +
+    fruityIntro + "WELCOME TO FRUITY WORD GUESS ".white + fruityIntro + "\r\n" + "\r\n" +
     asterisk + "\r\n" + "\r\n"
   );
   inquirer.prompt([
@@ -110,7 +110,6 @@ function introPrompt() {
 // Main logic
 function gameLogic() {
 
-  
   // Make cpu randomly select word from word bank
   if (requireWord) {
 
@@ -127,6 +126,7 @@ function gameLogic() {
 
   // Store the word that is completed
   let wordComplete = [];
+
   cpuWord.objArray.forEach(completeCheck);
 
   // Begin user prompt if the word is not complete
@@ -149,9 +149,12 @@ function gameLogic() {
 
             console.log("\nYou've already tried that letter or nothing was entered!\n".cyan);
             gameLogic();
-          } else {
+          } 
+            // User input is valid then do this logic
+            else {
 
             let checkerArray = [];
+
             cpuWord.userGuess(input.userInput);
             cpuWord.objArray.forEach(wordCheck);
 
@@ -188,6 +191,7 @@ function gameLogic() {
   }
 }
 
+// Prompt user to play again if they win or lose
 function playAgain() {
   
   console.log("                  Wins: ".yellow + wins + " Losses: ".red + losses + "\r\n");
