@@ -1,51 +1,32 @@
 
 // Import letter.js
 const Letter = require("./letter.js")
+const colors = require("colors")
 
-// Constructor to create an object for the current word the user is attempting to guess
-function Word(string) {
-    this.string = string;
+let tilde =    "~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~".cyan;
+
+function Word(answer) {
+    this.objArray = [];
+
+    for (let i = 0; i < answer.length; i++) {
+        let letter = new Letter(answer[i]);
+        this.objArray.push(letter);
+    }
+    // console.log(this.objArray);
     
-    // Build an object to store data for each Letter
-    this.buildLetters = function (string) {
-        let letters = [];
-        string.split("").forEach(character => {
-            var newLetter = new Letter(character);
-            letters.push(newLetter);
-        });
-        console.log(letters);
-        return letters;
-    }
+    this.log = function() {
+        answerLog = "";
+        for (let i = 0; i < this.objArray.length; i++) {
+            answerLog += this.objArray[i].renderLetter() + " ";
+        }
+        console.log("Word to Guess: ".blue + answerLog, "\n" + tilde + "\n");
+    };
 
-    // Store Letter objects
-    this.letters = this.buildLetters(this.string);
-
-    // Testing
-    console.log(this.letters);
-    
-    // Check user input by passing character through checkGuess() and then display the results by calling updateWord()
-    this.userGuess = function(character) {
-        this.letters.forEach(letter => {
-            if(letter.character !== " ") {
-                letter.checkGuess(character);
-            }
-        }); 
-        this.updateWord();
-    }
-     
-    // Update word with user input by concatinating and passing through renderLetter()
-    this.updateWord = function() {
-        let printWord = "";
-        this.letters.forEach(letter => {
-            printWord += letter.renderLetter() + " "
-        });
-        console.log(printWord);
-        return printWord
-    }
+    this.userGuess = function(input) {
+        for (let i = 0; i < this.objArray.length; i++) {
+            this.objArray[i].checkGuess(input);
+        }
+    };
 }
-
-// Testing
-var testWord = new Word("Treez");
-console.log(testWord.userGuess("t"));
 
 module.exports = Word;
