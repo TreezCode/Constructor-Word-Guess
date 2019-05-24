@@ -4,7 +4,7 @@
 
 This is a command-line word guessing game, built using advanced Javascript and constructor functions. The app receives user input by utilizing the NPM package 'inquirer'.
 
-<img src="assets/images/fruityIntro.gif" alt="Intro Gif" width="100%">
+<img src="images/fruityIntro.gif" alt="Intro Gif" width="100%">
 
 ## How to Use 🤔
 
@@ -16,7 +16,7 @@ The `difficulty` levels:
 * `Medium` - 7 guesses
 * `Hard` - 3 guesses
 
-<img src="assets/images/fruityDifficulty.png" alt="Fruity Difficulty" width="75%"/>
+<img src="images/fruityDifficulty.png" alt="Fruity Difficulty" width="75%"/>
 
 **Remember**
 If the user correctly guesses all of the hidden letters they receive a `You Win` and their `wins` increase by 1
@@ -25,11 +25,11 @@ BUT...
 
 If the user reaches 0 guesses they receive a `Game Over` and their `losses` increase by 1
 
-## How it Works 🔨
+<!-- ## How it Works 🔨
 
 ### 🎧 spotify-this-song
 
-<img src="assets/images/spotify-this.gif" alt="LIRI Spotify" width="75%"/>
+<img src="images/spotify-this.gif" alt="LIRI Spotify" width="75%"/>
 
 The `spotify-this-song` command searches the `Node-Spotify-API` by sending user input as a parameter for the call to retrieve relevant song information.
 
@@ -113,7 +113,7 @@ The following steps will get you a copy of the application up and running on you
 * Node.js
 * NPM
 * Moment.js
-* VS Code
+* VS Code -->
 
 ## Creator ✋
 
