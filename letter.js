@@ -1,7 +1,7 @@
 
 // Constructor to display underlying character or underscore, dependent on if user has guessed the correct letter.
 function Letter(value) {
-    this.character = value;
+    this.character = value.toUpperCase();
     this.isGuessed = false;
 
     this.renderLetter = function() {
@@ -18,11 +18,10 @@ function Letter(value) {
     };
     
     this.checkGuess = function(input) {
-        if (input === this.character) {
+        if (input.toUpperCase() === this.character) {
             this.isGuessed = true;
             // return true;
         } 
     };
 }
-
 module.exports = Letter;

@@ -3,7 +3,7 @@
 const Letter = require("./letter.js")
 const colors = require("colors")
 
-let tilde =    "~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~".cyan;
+let tilde =    "~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~".rainbow;
 
 function Word(answer) {
     this.objArray = [];
@@ -12,14 +12,13 @@ function Word(answer) {
         let letter = new Letter(answer[i]);
         this.objArray.push(letter);
     }
-    // console.log(this.objArray);
     
     this.log = function() {
         answerLog = "";
         for (let i = 0; i < this.objArray.length; i++) {
             answerLog += this.objArray[i].renderLetter() + " ";
         }
-        console.log("Word to Guess: ".blue + answerLog, "\n" + tilde + "\n");
+        console.log("\nWord to Guess: ".blue + answerLog, "\n" + tilde + "\n");
     };
 
     this.userGuess = function(input) {
@@ -28,5 +27,4 @@ function Word(answer) {
         }
     };
 }
-
 module.exports = Word;

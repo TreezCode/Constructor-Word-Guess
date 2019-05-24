@@ -5,7 +5,61 @@ const inquirer = require("inquirer");
 const colors = require("colors");
 
 // GLobal Variables
-const wordBank = ["apple", "banana", "kiwi", "orange", "peach"];
+const wordBank = [
+  "Acai", 
+  "Apple",
+  "Apricot",
+  "Avocado", 
+  "Banana", 
+  "Blackberry", 
+  "Blueberry", 
+  "Boysenberry", 
+  "Cantaloupe", 
+  "Cherry", 
+  "Chili pepper", 
+  "Coconut",
+  "Corn kernel", 
+  "Crab apples", 
+  "Cranberry", 
+  "Cucumber",
+  "Currant", 
+  "Date", 
+  "Dragonfruit", 
+  "Eggplant",
+  "Elderberry", 
+  "Fig", 
+  "Goji berry", 
+  "Grape", 
+  "Grapefruit", 
+  "Guava", 
+  "Huckleberry", 
+  "Jackfruit", 
+  "Juniper berry", 
+  "Kiwi", 
+  "Kumquat", 
+  "Lemon", 
+  "Lime", 
+  "Mango", 
+  "Melon", 
+  "Nectarine", 
+  "Orange", 
+  "Papaya", 
+  "Passionfruit", 
+  "Peach", 
+  "Pear", 
+  "Pineapple", 
+  "Plantain", 
+  "Plum", 
+  "Pomegranate",
+  "Pumpkin", 
+  "Raspberry", 
+  "Star apple", 
+  "Star fruit", 
+  "Strawberry", 
+  "Tomato", 
+  "Zucchini", 
+];
+
 const alphabet = "abcdefghijklmnopqrstuvwxyz";
 
 let randomIndex = Math.floor(Math.random() * wordBank.length);
@@ -13,24 +67,49 @@ let randomWord = wordBank[randomIndex];
 let cpuWord = new Word(randomWord);
 
 let asterisk = "**********************************************************".rainbow;
-let tilde =    "~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~".cyan;
+let tilde =    "~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~".rainbow;
+let fruityInto = "*.*.*.*.*.*.* ".rainbow;
 
 let requireWord = false;
 let wrongLetters = [];
 let correctLetters = [];
-let guessesLeft = 10;
+let guessesLeft;
+let wins = 0;
+let losses = 0;
 
 // Welcome prompt logic
 function introPrompt() {
+
   console.log(
     asterisk + "\r\n" + "\r\n" +
-    "              WELCOME TO FRUITY WORD GUESS".white + "\r\n" + "\r\n" +
+    fruityInto + "WELCOME TO FRUITY WORD GUESS ".white + fruityInto + "\r\n" + "\r\n" +
     asterisk + "\r\n" + "\r\n"
   );
+  inquirer.prompt([
+    {
+      type: "list",
+      message: "Choose your difficulty!\r\n",
+      choices: ["Easy".green, "Medium".yellow, "Hard".red],
+      name: "difficulty"
+    }
+  ]).then(answers => {
+      let diff = answers.difficulty
+      if (diff === "Easy".green) {
+        guessesLeft = 10;
+        gameLogic();
+      } else if (diff === "Medium".yellow) {
+        guessesLeft = 7;
+        gameLogic();
+      } else {
+        guessesLeft = 3;
+        gameLogic();
+      }
+  })
 }
 
 // Main logic
 function gameLogic() {
+
   
   // Make cpu randomly select word from word bank
   if (requireWord) {
@@ -40,7 +119,11 @@ function gameLogic() {
     cpuWord = new Word(randomWord);
     requireWord = false;
   }
+  // Log game stats data
   cpuWord.log();
+  console.log("Guesses Left: ".white + guessesLeft) + "\r\n";
+  console.log("Letters Guessed: ".white + wrongLetters.join(" ")) + "\r\n";
+  console.log("\r\n" + tilde);
 
   // Store the word that is completed
   let wordComplete = [];
@@ -59,12 +142,12 @@ function gameLogic() {
         // Validate user input
         if (!alphabet.includes(input.userInput) || input.userInput.length > 1) {
 
-          console.log("Please enter a valid letter... ONE at a time! >.< ");
+          console.log("\nPlease enter a letter from A to Z... ONE at a time! >.< \n".cyan);
           gameLogic();
         } else {
           if (wrongLetters.includes(input.userInput) || correctLetters.includes(input.userInput) || input.userInput === "") {
 
-            console.log("\nYou've already tried that letter or nothing was entered!\n");
+            console.log("\nYou've already tried that letter or nothing was entered!\n".cyan);
             gameLogic();
           } else {
 
@@ -73,7 +156,7 @@ function gameLogic() {
             cpuWord.objArray.forEach(wordCheck);
 
             if (checkerArray.join("") === wordComplete.join("")) {
-              console.log("\r\n                * * * INCORRECT! * * *\r\n".red);
+              console.log("\r\n                * * * ".rainbow + "INCORRECT!".red + " * * *\r\n".rainbow);
               wrongLetters.push(input.userInput);
               guessesLeft --;
             } else {
@@ -81,14 +164,11 @@ function gameLogic() {
               correctLetters.push(input.userInput);
             }
 
-            console.log("Guesses Left: ".white + guessesLeft) + "\r\n";
-            console.log("Letters Guessed: ".white + wrongLetters.join(" ")) + "\r\n";
-            console.log("\r\n" + tilde);
-
             // Handle the guesses left
             if (guessesLeft > 0) {
               gameLogic();
             } else {
+              losses++;
               console.log("              * * * * ".red + "GAME OVER!".bgRed.black + " * * * * \n".red);
               playAgain();
             }
@@ -99,6 +179,7 @@ function gameLogic() {
         }
     });
   } else {
+    wins++;
     console.log("              * * * * ".yellow + "YOU WIN!".bgYellow.black + " * * * * \n".yellow);
     playAgain();
   }
@@ -108,11 +189,13 @@ function gameLogic() {
 }
 
 function playAgain() {
+  
+  console.log("                  Wins: ".yellow + wins + " Losses: ".red + losses + "\r\n");
   inquirer.prompt([
     {
       type: "list",
-      message: "Play Again?",
-      choices: ["Yes", "No"],
+      message: "Play Again?".rainbow,
+      choices: ["Yes", "No".red],
       name: "restart"
     }
   ])
@@ -123,12 +206,14 @@ function playAgain() {
       correctLetters = [];
       guessesLeft = 10;
       introPrompt();
-      gameLogic();
     } else {
+      console.log(
+        asterisk + "\r\n" + "\r\n" +
+        "*.*.*.*.*.*.*.*.* ".rainbow + "THANKS FOR PLAYING".white + " *.*.*.*.*.*.*.*.*".rainbow + "\r\n" + "\r\n" +
+        asterisk + "\r\n" + "\r\n"
+      );
       return;
     }
   });
 }
-
 introPrompt();
-gameLogic();
