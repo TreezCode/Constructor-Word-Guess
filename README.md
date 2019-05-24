@@ -2,7 +2,7 @@
 
 ## About Fruity Word Guess  🍎 🍊 🍐 🍌 🍈 🥝
 
-This is a command-line word guessing game, built using advanced Javascript and constructor functions. The app receives user input by utilizing the NPM package 'inquirer'.
+This is a command-line word guessing game, built using advanced Javascript and constructor functions. The app receives user input by utilizing the NPM package `inquirer`.
 
 <img src="images/fruityIntro.gif" alt="Intro Gif" width="100%">
 
@@ -19,6 +19,7 @@ The `difficulty` levels:
 <img src="images/fruityDifficulty.png" alt="Fruity Difficulty" width="75%"/>
 
 **Remember**
+
 If the user correctly guesses all of the hidden letters they receive a `You Win` and their `wins` increase by 1
 
 BUT...
