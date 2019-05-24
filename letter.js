@@ -25,9 +25,4 @@ function Letter(value) {
     };
 }
 
-// Testing
-// var test = new Letter("g");
-// console.log(test.checkGuess("f"));
-// console.log(test.renderLetter("f"));
 module.exports = Letter;
-

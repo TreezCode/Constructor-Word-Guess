@@ -20,14 +20,13 @@ let wrongLetters = [];
 let correctLetters = [];
 let guessesLeft = 10;
 
-// Welcome logic
+// Welcome prompt logic
 function introPrompt() {
   console.log(
     asterisk + "\r\n" + "\r\n" +
     "              WELCOME TO FRUITY WORD GUESS".white + "\r\n" + "\r\n" +
     asterisk + "\r\n" + "\r\n"
   );
-  
 }
 
 // Main logic
@@ -130,25 +129,6 @@ function playAgain() {
     }
   });
 }
-introPrompt()
+
+introPrompt();
 gameLogic();
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
