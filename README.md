@@ -2,7 +2,7 @@
 
 ## About Fruity Word Guess  🍎 🍊 🍐 🍌 🍈 🥝
 
-This is a command-line word guessing game, built using advanced Javascript and constructor functions. The app receives user input by utilizing the NPM package `inquirer`.
+This is a command-line word guessing game, built using advanced Javascript and constructor functions. A random word is generated from a word bank and the user must guess, ONE letter at a time, to complete the word. The app receives and stores user input by utilizing the NPM package `inquirer`. Various `Javascript` functions are then called to validate and check guess correctness.
 
 <img src="images/fruityIntro.gif" alt="Intro Gif" width="100%">
 
@@ -26,95 +26,103 @@ BUT...
 
 If the user reaches 0 guesses they receive a `Game Over` and their `losses` increase by 1
 
-<!-- ## How it Works 🔨
+## How it Works 🔨
 
-### 🎧 spotify-this-song
+### Game Logic 🎮 
 
-<img src="images/spotify-this.gif" alt="LIRI Spotify" width="75%"/>
+The user starts the game by running the `node index.js` command to initialize the app. There are 3 seperate `js` files that are utilized to perform the logic. The files are isolated by *letter*, *word*, and *index* (main logic) functions, and then exported to be used together.
 
-The `spotify-this-song` command searches the `Node-Spotify-API` by sending user input as a parameter for the call to retrieve relevant song information.
+The **NPM Package** `inquirer` is called when the main logic of the application is ran. This *prompts* the user for input, which is then stored and further used for various functions throughout the game.
 
 ``` 
-spotify.search({ type: 'track', query: input }, function (err, data) {
-    if (err) {
-        // Log error
-        console.log(
-            "~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~" + "\r\n" +             
-            "          Oops... LIRI cannot find any data         >.<" + "\r\n" +
-            "~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~" + "\r\n" +          
-            'Error occurred: ' + err
-        );
-        return;
-    } else if (!err) {
-        // Store data object
-        let songData = data.tracks.items
-        let song = songData[0];
-        // Log song data for user
-        console.log(
-            "~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~" + "\r\n" +                 
-            "\r\n" + "       LIRI Spotify response for " + input + "!" + "\r\n" + "\r\n" +              
-            "_________________________________________________________________"
-        );
-            // Iterate through artist array if multiple artists
-            for(var i = 0; i < song.artists.length; i++) {
-                console.log("Artist:       " + song.artists[i].name);
+  // Begin user prompt if the word is not complete
+  if (wordComplete.includes(false)) {
+    inquirer.prompt([
+      {
+        type: "input",
+        message: "Guess a letter from A to Z  ".white + "=>" ,
+        name: "userInput"
+      }
+    ]).then(input => {
+
+        // Validate user input
+        if (!alphabet.includes(input.userInput) || input.userInput.length > 1) {
+
+          console.log("\nPlease enter a letter from A to Z... ONE at a time! >.< \n".cyan);
+          gameLogic();
+        } else {
+          if (wrongLetters.includes(input.userInput) || correctLetters.includes(input.userInput) || input.userInput === "") {
+
+            console.log("\nYou've already tried that letter or nothing was entered!\n".cyan);
+            gameLogic();
+          } 
+            // User input is valid then do this logic
+            else {
+
+            let checkerArray = [];
+
+            cpuWord.userGuess(input.userInput);
+            cpuWord.objArray.forEach(wordCheck);
+
+            if (checkerArray.join("") === wordComplete.join("")) {
+              console.log("\r\n                * * * ".rainbow + "INCORRECT!".red + " * * *\r\n".rainbow);
+              wrongLetters.push(input.userInput);
+              guessesLeft --;
+            } else {
+              console.log("\r\n                * * * CORRECT! * * *\r\n".yellow);
+              correctLetters.push(input.userInput);
             }
-        console.log(
-            "_________________________________________________________________" + "\r\n" + 
-            "Song:         " + song.name + "\r\n" + 
-            "_________________________________________________________________" + "\r\n" + 
-            "Album:        " + song.album.name + "\r\n" + 
-            "_________________________________________________________________" + "\r\n" + 
-            "Preview:      " + song.preview_url + "\r\n" + 
-            "_________________________________________________________________" + "\r\n" + "\r\n" +
-            "~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~"
-        );
-    }
-});
+
+            // Handle the guesses left
+            if (guessesLeft > 0) {
+              gameLogic();
+            } else {
+              losses++;
+              console.log("              * * * * ".red + "GAME OVER!".bgRed.black + " * * * * \n".red);
+              playAgain();
+            }
+            function wordCheck(key) {
+              checkerArray.push(key.isGuessed);
+            }
+          }
+        }
+    });
 ```
 
-#### Examples
+#### Screenshots 📷
 
-* `spotify-this-song "Bohemian Rhapsody"`
-* `spotify-this-song "Never Gonna Give You Up"`
-* `spotify-this-song "2009 Mac Miller"`
+<img src="images/intro.png" alt="Fruity Intro" width="75%"/>
 
-The *Spotify API* requires you sign up as a developer to generate the necessary credentials. You can either login to your existing Spotify account or create a new one (a free account is fine) and log in. From there you will be able to generate a **client id** and **client secret**.
+<img src="images/win.png" alt="Fruity Win" width="75%"/>
+
+<img src="images/loss.png" alt="Fruity Loss" width="75%"/>
 
 ## Pre-Requisites
 
-To retrieve the data that will power this app, you'll need to send requests using NPM packages. Downloading the following Node packages is crucial for this applications functionality.
+To power this app, you'll need to a install a couple `NPM Packages`. Downloading the following Node packages is crucial for this applications functionality.
 
-* Node-Spotify-API `npm install node-spotify-api`
-* Axios `npm install axios`
-* Moment `npm install moment`
-* DotEnv `npm install dotenv`
+* Inquirer `npm install inquirer`
 * Colors `npm install colors`
 
 ## Getting Started 🏁
 
 The following steps will get you a copy of the application up and running on your local machine for testing and grading puproses.
 
-1. Clone this repository from github.
+1. Copy this repository from github by using clone.
 2. Git clone repository in IDE of choice
-3. Open folder in text-editor of choice
-4. Create a `.env` file (Personal credentials will live here)
-5. In `.env` place these lines:
-`SPOTIFY_ID=<YOUR SPOTIFY ID HERE>`
-`SPOTIFY_SECRET=<YOUR SPOTIFY SECRET HERE>`
-`OMDB_API=<YOUR OMDB API KEY HERE>`
-6. If all pre-requisites are met, open application in IDE and run by typing `node liri.js`!
+3. Navigate to proper directory in IDE
+4. If all pre-requisites are met, initalize game by typing `node index.js`!
+5. ENJOY!
 
 ## Technologies Used 💻
 
-* Axios
 * Git
-* Javascript ES5
+* Inquirer
+* Javascript ES6
 * JSON
 * Node.js
 * NPM
-* Moment.js
-* VS Code -->
+* VS Code
 
 ## Creator ✋
 
