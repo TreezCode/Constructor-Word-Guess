@@ -146,7 +146,6 @@ function gameLogic() {
           gameLogic();
         } else {
           if (wrongLetters.includes(input.userInput) || correctLetters.includes(input.userInput) || input.userInput === "") {
-
             console.log("\nYou've already tried that letter or nothing was entered!\n".cyan);
             gameLogic();
           } 
