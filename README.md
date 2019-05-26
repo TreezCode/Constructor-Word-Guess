@@ -131,6 +131,6 @@ AKA
 
 👇
 
-*Treez*
+*Treez* 🌲
 
 Github profile 👉 [TreezCode](https://github.com/TreezCode)
